@@ -67,11 +67,15 @@ public class quadraticProbing {
             int indexValue = hashFunction(key);
             if(container[indexValue]!=null && container[indexValue].key == key){
                 container[indexValue] = null;
+                return;
             }
             else{
                 int i = indexValue;
                 int temp = 1;
-                while(container[indexValue].key != key ){
+                while(true ){
+                    if(container[indexValue] != null){
+                        if(container[indexValue].key == key)break;
+                    }
                     i = (i+(temp*temp))%size;
                     temp+=1;
                     if(i == indexValue){

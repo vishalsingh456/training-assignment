@@ -8,11 +8,11 @@ public class Chaining {
      * class for creating the hash map link.
      * this class contains a parameterised constructor which takes key and a value as an parameter.
      */
-    static class keyValuePair{
+    static class KeyValuePair{
         int key;
         int value;
-        keyValuePair next;
-        keyValuePair(int key, int value){
+        KeyValuePair next;
+        KeyValuePair(int key, int value){
             this.key = key;
             this.value = value;
             this.next = null;
@@ -22,15 +22,15 @@ public class Chaining {
     /*
      * This class is created for performing basic operation of hash map.
      */
-    static class newHashMap{
-        keyValuePair[] container;
+    static class NewHashMap{
+        KeyValuePair[] container;
         int size;
         int collision;
         // Conteructor for initialization of container.
         // It takes an argument size and then creates a hashMap of that size.
-        newHashMap(int size){
+        NewHashMap(int size){
             this.size = size;
-            this.container = new keyValuePair[size];
+            this.container = new KeyValuePair[size];
             for (int i=0; i<size; i++)this.container[i] = null;
         }
 
@@ -45,13 +45,13 @@ public class Chaining {
          */
         public void insert(int key, int value){
             int indexValue = hashFunction(key);
-            keyValuePair newNode = new keyValuePair(key, value);
+            KeyValuePair newNode = new KeyValuePair(key, value);
             
             if(container[indexValue] == null){
                 container[indexValue] = newNode;
             }
             else{
-                keyValuePair curr = container[indexValue];
+                KeyValuePair curr = container[indexValue];
                 if(curr.key==key){
                     curr.value = value;
                     return ;
@@ -75,7 +75,7 @@ public class Chaining {
             int indexValue = hashFunction(key);
             System.out.print("Your data is:  ");
             try{
-                keyValuePair data = container[indexValue];
+                KeyValuePair data = container[indexValue];
                 while(data != null){
                     if(data.key == key){
                         System.out.print(data.value);
@@ -97,7 +97,7 @@ public class Chaining {
          */
         public boolean delete(int key){
             int indexValue = hashFunction(key);
-            keyValuePair data = container[indexValue];
+            KeyValuePair data = container[indexValue];
             if(data==null){
                 return true;
             }
@@ -115,7 +115,7 @@ public class Chaining {
                 data.next = data.next.next;
                 return true;
             }
-            keyValuePair prev=data;
+            KeyValuePair prev=data;
             while(data!=null && data.key!=key){
                 prev = data;
                 data = data.next;
@@ -127,7 +127,7 @@ public class Chaining {
         // This function is used for displaying the complete hash map
         public void displayHashMap(){
             int index = 0;
-            for(keyValuePair start : container){
+            for(KeyValuePair start : container){
                 System.out.print(index+" ");
                 while(start !=null){
                     System.out.print(" { "+start.key+":"+start.value+" }"+"-->");
@@ -143,7 +143,7 @@ public class Chaining {
          * Function takes one argument value and search in the hash map for that value.
          */
         public void searchByValue(int value){
-             for(keyValuePair start: container){
+             for(KeyValuePair start: container){
                 while(start !=null){
                     if(start.value == value){
                         System.out.println("value found "+start.key + " : "+ start.value);
@@ -161,7 +161,7 @@ public class Chaining {
         Scanner input = new Scanner(System.in);
         System.out.println("Enter the size of hash map.");
         int size = input.nextInt();
-	    newHashMap obj = new newHashMap(size);
+	    NewHashMap obj = new NewHashMap(size);
         int option,key,value;
         long t1,t2;
         // Menu option for the user.

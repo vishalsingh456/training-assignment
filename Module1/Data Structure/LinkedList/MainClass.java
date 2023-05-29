@@ -10,7 +10,7 @@ class Node{
     }
 }
 
-class Operation{
+class LinkedList{
     Node head;
     /*
      * This function is used to insert data into linked list.
@@ -35,7 +35,7 @@ class Operation{
      * Method is used to delete an element from the linked list.
      * fuction accepts an argument data of integer type.
      */
-    public void DeleteData(int data){
+    public void deleteData(int data){
 
         if (head == null) {
             System.out.println("You have an empty linked list.");
@@ -143,11 +143,31 @@ class Operation{
         }
         return result;
     }
+
+    public void search(int data){
+
+        if(head==null){
+            System.out.println("No data found");
+            return ;
+        }
+        Node curr = head;
+        int counter = 0;
+        while(curr != null){
+            if(curr.data==data){
+                System.out.println("Data found at "+counter);
+                return;
+            }
+            curr = curr.next;
+            counter ++;
+        }
+        System.out.println("Unable to find the element in the linked list.");
+        return;
+    }
 }
 
-class LinkedList{
+class MainClass{
     public static void main(String[] args) {
-        Operation obj = new Operation();
+        LinkedList obj = new LinkedList();
 
         Scanner input = new Scanner(System.in);
         int option;
@@ -157,14 +177,12 @@ class LinkedList{
         System.out.println("Enter 3 for Updation. ");
         System.out.println("Enter 4 for Sorting. ");
         System.out.println("Enter 5 to see the data. ");
-        System.out.println("Enter 6 to exit.");
+        System.out.println("Enter 6 for Searching. ");
+        System.out.println("Enter 7 to exit.");
 
         while(true){
             option = input.nextInt();
-            if (option==6){
-                break;
-            }
-            else if(option==5){
+            if(option==5){
                 obj.showData();
             }
             else if (option == 1){
@@ -176,7 +194,7 @@ class LinkedList{
             else if(option==2){
                 System.out.print("Enter the value to delete. ");
                 int value = input.nextInt();
-                obj.DeleteData(value);
+                obj.deleteData(value);
 
                 System.out.println();
             }
@@ -192,11 +210,17 @@ class LinkedList{
             else if(option == 4){
                 obj.head = obj.sort(obj.head);
                 System.out.println("Data sorted");
+                obj.showData();
             }
             else if(option == 5){
                 obj.showData();
             }
-            else if(option == 6){
+            else if(option==6){
+                System.out.println("Enter element to be searched.");
+                int element = input.nextInt();
+                obj.search(element);
+            }
+            else if(option == 7){
                 break;
             }
             else{

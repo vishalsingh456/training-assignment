@@ -1,6 +1,8 @@
-import java.util.Queue;
-import java.util.LinkedList;
+
+// import java.util.Queue;
+// import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.InputMismatchException;
 
 public class Graph {
     private int[][] adj;
@@ -12,7 +14,7 @@ public class Graph {
         // 0 means no edge is present and the nodes are not adjacent
         adj = new int[no_Of_Vertices][no_Of_Vertices];
         this.no_Of_Vertices = no_Of_Vertices;
-    }  
+    }
 
     public void addEdge(int from, int to) {
         // make the node a and b adjacent. (undirected)
@@ -28,7 +30,7 @@ public class Graph {
 
     // Traversals
     public void dfsTraverse() {
-        // Bolean array is created to keep track of the nodes visited. 
+        // Bolean array is created to keep track of the nodes visited.
         boolean visited[] = new boolean[no_Of_Vertices];
         for (int node = 0; node < no_Of_Vertices; node++) {
             if (!visited[node])
@@ -55,12 +57,12 @@ public class Graph {
     }
 
     public void bfs_main(int start) {
-        Queue<Integer> q = new LinkedList<>();
+        CreateQueue q = new CreateQueue();
         q.add(start);
         boolean visited[] = new boolean[no_Of_Vertices];
         visited[start] = true;
         while (!q.isEmpty()) {
-            int u = q.poll();
+            int u = q.delete();
             System.out.print(u + "--> ");
             // store all adjacent node of u into the queue if they are not visited
             for (int neighbor : adj[u])
@@ -84,39 +86,44 @@ public class Graph {
         System.out.println(" 5 EXIT.");
         System.out.println();
         Scanner input = new Scanner(System.in);
-        while(true){
-        int option = input.nextInt();
-            
-        if(option == 1){// addEdge
-            System.out.println("Enter the nodes you want to insert.");
-            g.addEdge(input.nextInt(), input.nextInt());
-            System.out.println("The Nodes are added.");
+        loop:while (true) {
+            int option = input.nextInt();
+            try{
+            switch(option){
+                case 1:
+                    System.out.println("Enter the nodes you want to insert.");
+                    g.addEdge(input.nextInt(), input.nextInt());
+                    System.out.println("The Nodes are added.");
+                    break;
+                case 2:
+                    // removeEdge
+                    System.out.println("Enter the nodes which you want to delete");
+                    g.deleteEdge(input.nextInt(), input.nextInt());
+                    System.out.println("The Nodes are deleted.");
+                    break;
+                case 3:
+                    // bfs
+                    System.out.println("BFS Traversal");
+                    g.bfsTraverse();
+                    break;
+                case 4:
+                    System.out.println("DFS Traversal");
+                    g.dfsTraverse();
+                    break;
+                case 5:
+                    // dfs
+                    System.out.println("Exiting the program.");
+                    break loop;
+                default:
+                    System.out.println("Invalid input.");
+                
+            }
+        }catch(InputMismatchException ex){
+            System.out.println("Invalid input.");
+            input = new Scanner(System.in);
         }
-        else if(option ==2){
-            // removeEdge
-            System.out.println("Enter the nodes which you want to delete");
-            g.deleteEdge(input.nextInt(), input.nextInt());
-            System.out.println("The Nodes are deleted.");
-        }
-        else if(option ==3){
-            // bfs
-            System.out.println("BFS Traversal");
-            g.bfsTraverse();
-        }
-        else if(option == 4){// dfs
-            System.out.println("DFS Traversal");
-            g.dfsTraverse();
-        }
-        else if(option == 5){
-            // dfs
-            System.out.println("Exiting the program.");
-            break;
-        }
-        else{
-            System.out.println("Invalid Input");
-            
-        }
-        
+                
+
         }
     }
 

@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Tree {
@@ -183,58 +184,60 @@ public class Tree {
         System.out.println("Enter 6 to exit.");
         System.out.println("Enter your choice. ");
         int option;
-        while(true){
+        loop:while(true){
             option = input.nextInt();
-            if(option == 1){
-                System.out.println("Enter a value");
-                int value = input.nextInt();
-                obj.add(value);
-                System.out.println("value added successfully.");
+            try{
+            switch(option){
+                case 1:
+                    System.out.println("Enter a value");
+                    int value = input.nextInt();
+                    obj.add(value);
+                    System.out.println("value added successfully.");
+                
+                case 2:
+                    System.out.println("Though you are trying to update the value but it will break the rule of B.S.T");
+                    System.out.println("Enter old value: ");
+                    int oldValue = input.nextInt();
+                    System.out.println("Enter new value: ");
+                    int newValue = input.nextInt();
+                    obj.updateData(oldValue, newValue);
+                    System.out.println("Data updated successfully.");
+                
+                case 3:
+                    System.out.println("Enter a n element. ");
+                    int value = input.nextInt();
+                    obj.root = obj.delete(value, obj.root);
+                    System.out.println("Element deleted successfully");
+                case 4:
+                    System.out.print("Inorder: ");
+                    obj.inOrder(obj.root);
+                    System.out.println();
+                    System.out.print("Pre Order: ");
+                    obj.preOrder(obj.root);
+                    System.out.println();
+                    System.out.print("Post Order: ");
+                    obj.postOrder(obj.root);
+                    System.out.println();
+                case 5:
+                    System.out.println("Enter a number.");
+                    int num = input.nextInt();
+                    boolean bool = obj.search(num);
+                    if(bool){
+                        System.out.println(num+" is there in the tree.");
+                    }
+                    else{
+                        System.out.println("Unable to find the "+num+" in tree.");
+                    }
+                case 6:
+                    break loop; 
+                default:
+                    System.out.println("Enter a valid option.");
             }
-            else if(option == 2){
-                System.out.println("Though you are trying to update the value but it will break the rule of B.S.T");
-                System.out.println("Enter old value: ");
-                int oldValue = input.nextInt();
-                System.out.println("Enter new value: ");
-                int newValue = input.nextInt();
-                obj.updateData(oldValue, newValue);
-                System.out.println("Data updated successfully.");
-            }
-            else if(option == 3){
-                System.out.println("Enter a n element. ");
-                int value = input.nextInt();
-                obj.root = obj.delete(value, obj.root);
-                System.out.println("Element deleted successfully");
-            }
-            else if(option == 4){
-                System.out.print("Inorder: ");
-                obj.inOrder(obj.root);
-                System.out.println();
-                System.out.print("Pre Order: ");
-                obj.preOrder(obj.root);
-                System.out.println();
-                System.out.print("Post Order: ");
-                obj.postOrder(obj.root);
-                System.out.println();
-            }
-            else if(option == 5){
-                System.out.println("Enter a number.");
-                int num = input.nextInt();
-                boolean bool = obj.search(num);
-                if(bool){
-                    System.out.println(num+" is there in the tree.");
-                }
-                else{
-                    System.out.println("Unable to find the "+num+" in tree.");
-                }
-            }
-            else if(option == 6){
-                break;
-            }
-            else{
-                System.out.println("Enter a valid option.");
-            }
-            System.out.println("Enter your choice. ");
+          
+            }catch(InputMismatchException ex){
+                System.out.println("Enter your choice. ");
+                input = new Scanner(System.in);
+        }
         }
         
     }

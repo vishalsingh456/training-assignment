@@ -95,10 +95,8 @@ public class doubleHashing {
                     table[index].value = val;
                     return;
                 }
-
                 collision++;
                 index = (index + index1) % capacity;
-
             }
             Node newNode = new Node(key, val);
             table[index] = newNode;

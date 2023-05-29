@@ -71,10 +71,14 @@ public class randomProbing {
             int indexValue = hashFunction(key);
             if(container[indexValue]!=null && container[indexValue].key == key){
                 container[indexValue] = null;
+                return;
             }
             else{
                 int i = indexValue;
-                while(container[indexValue].key != key ){
+                while(true){
+                    if(container[indexValue] != null){
+                        if(container[indexValue].key == key)break;
+                    }
                     i = (i+randomValue)%size;
                     if(i == indexValue){
                         System.out.println("Unable to find the key provided.");

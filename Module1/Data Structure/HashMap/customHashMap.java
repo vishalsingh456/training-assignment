@@ -1,16 +1,17 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class customHashMap {
+public class CustomHashMap {
 
     /*
      * class for creating the hash map link.
      * this class contains a parameterised constructor which takes key and a value as an parameter.
      */
-    static class keyValuePair{
+    static class KeyValuePair{
         int key;
         int value;
-        keyValuePair next;
-        keyValuePair(int key, int value){
+        KeyValuePair next;
+        KeyValuePair(int key, int value){
             this.key = key;
             this.value = value;
             this.next = null;
@@ -20,14 +21,14 @@ public class customHashMap {
     /*
      * This class is created for performing basic operation of hash map.
      */
-    static class newHashMap{
-        keyValuePair[] container;
+    static class NewHashMap{
+        KeyValuePair[] container;
         int size;
         // Conteructor for initialization of container.
         // It takes an argument size and then creates a hashMap of that size.
-        newHashMap(int size){
+        NewHashMap(int size){
             this.size = size;
-            this.container = new keyValuePair[size];
+            this.container = new KeyValuePair[size];
             for (int i=0; i<size; i++)this.container[i] = null;
         }
 
@@ -42,14 +43,22 @@ public class customHashMap {
          */
         public void insert(int key, int value){
             int indexValue = hashFunction(key);
-            keyValuePair newNode = new keyValuePair(key, value);
+            KeyValuePair newNode = new KeyValuePair(key, value);
             
             if(container[indexValue] == null){
                 container[indexValue] = newNode;
             }
             else{
-                keyValuePair curr = container[indexValue];
+                KeyValuePair curr = container[indexValue];
+                if(curr.key==key){
+                    curr.value = value;
+                    return ;
+                }
                 while(curr.next !=null){
+                    if(curr.next.key==key){
+                        curr.next.value=value;
+                        return;
+                    }
                     curr = curr.next;
                 }
                 curr.next = newNode;
@@ -64,7 +73,7 @@ public class customHashMap {
             int indexValue = hashFunction(key);
             System.out.print("Your data is:  ");
             try{
-                keyValuePair data = container[indexValue];
+                KeyValuePair data = container[indexValue];
                 while(data != null){
                     if(data.key == key){
                         System.out.print(data.value);
@@ -86,7 +95,7 @@ public class customHashMap {
          */
         public boolean delete(int key){
             int indexValue = hashFunction(key);
-            keyValuePair data = container[indexValue];
+            KeyValuePair data = container[indexValue];
             if(data.next == null && data.key == key){
                 container[indexValue] = null;
                 return true;
@@ -96,7 +105,10 @@ public class customHashMap {
                 return false;
             }
             else if(data.key == key){
-                data = data.next;
+                data.key=data.next.key;
+                data.value = data.next.value;
+                data.next = data.next.next;
+                return true;
             }
             while(data!=null){
                 if(data.next.key == key){
@@ -112,7 +124,7 @@ public class customHashMap {
         // This function is used for displaying the complete hash map
         public void displayHashMap(){
             int index = 0;
-            for(keyValuePair start : container){
+            for(KeyValuePair start : container){
                 System.out.print(index+" ");
                 while(start !=null){
                     System.out.print(" { "+start.key+":"+start.value+" }"+"-->");
@@ -128,7 +140,7 @@ public class customHashMap {
          * Function takes one argument value and search in the hash map for that value.
          */
         public void searchByValue(int value){
-             for(keyValuePair start: container){
+             for(KeyValuePair start: container){
                 while(start !=null){
                     if(start.value == value){
                         System.out.println("value found "+start.key + " : "+ start.value);
@@ -146,55 +158,61 @@ public class customHashMap {
         Scanner input = new Scanner(System.in);
         System.out.println("Enter the size of hash map.");
         int size = input.nextInt();
-	    newHashMap obj = new newHashMap(size);
+	    NewHashMap obj = new NewHashMap(size);
         int option;
+        loop:while(true){
         // Menu option for the user.
-        System.out.println("1 : Insert ");
-        System.out.println("2 : Delete ");
-        System.out.println("3 : Get value of the key.");
-        System.out.println("4 : Display the Hashmap.");
-        System.out.println("5 : Search an element");
-        System.out.println("6 : Exit");
-        System.out.println("Enter your choice : ");
-        while(true){
+            System.out.println("1 : Insert ");
+            System.out.println("2 : Delete ");
+            System.out.println("3 : Get value of the key.");
+            System.out.println("4 : Display the Hashmap.");
+            System.out.println("5 : Search an element");
+            System.out.println("6 : Exit");
+            System.out.println("Enter your choice : ");
+        
             option = input.nextInt();
-            if(option == 1){
-                System.out.print("Enter key : ");
-                int key = input.nextInt();
-                System.out.print("Enter a value: ");
-                int value = input.nextInt();
-                obj.insert(key, value);
-                System.out.println("Data inserted");
-            }
-            else if(option == 2){
-                System.out.println("Enter the key: ");
-                int key = input.nextInt();
-                boolean resp = obj.delete(key);
-                if(resp){
-                    System.out.println("Element deleted successfully.");
-                }
+            try{
+                switch(option){
+                    case 1:
+                        System.out.print("Enter key : ");
+                        int key = input.nextInt();
+                        System.out.print("Enter a value: ");
+                        int value = input.nextInt();
+                        obj.insert(key, value);
+                        System.out.println("Data inserted");
+                        break;
+                    case 2:
+                        System.out.println("Enter the key: ");
+                        int keys = input.nextInt();
+                        boolean resp = obj.delete(keys);
+                        if(resp){
+                            System.out.println("Element deleted successfully.");
+                        }
+                        break;
+                    case 3:
+                        System.out.println("Enter a key: ");
+                        int key2 = input.nextInt();
+                        obj.getData(key2);
+                        break;
+                    case 4:
+                        obj.displayHashMap();
+                        break;
+                    case 5:
+                        System.out.print("Enter the value: ");
+                        int values = input.nextInt();
+                        obj.searchByValue(values);
+                        break;
+                    case 6:
+                        break loop;
+                    default:
+                        System.out.println("Please enter a valid option. ");
 
+                }
             }
-            else if (option == 3){
-                System.out.println("Enter a key: ");
-                int key = input.nextInt();
-                obj.getData(key);
+            catch(InputMismatchException ex){
+                System.out.println("Invalid input.");
+                input = new Scanner(System.in);
             }
-            else if(option == 4){
-                obj.displayHashMap();
-            }
-            else if(option == 5){
-                System.out.print("Enter the value: ");
-                int value = input.nextInt();
-                obj.searchByValue(value);
-            }
-            else if(option == 6){
-                break;
-            }
-            else{
-                System.out.println("Please enter a valid option. ");
-            }
-            System.out.print("choose an option again: ");
         }
     }
 }

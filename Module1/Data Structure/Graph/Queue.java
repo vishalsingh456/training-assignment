@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.InputMismatchException;
 
 class Node{
     int data;
@@ -10,6 +9,10 @@ class Node{
      */
     Node(int data){
         this.data = data;
+        this.next = null;
+    }
+
+    Node(){
         this.next = null;
     }
 }
@@ -36,13 +39,26 @@ class CreateQueue{
 /*
  * This function will delete an value at the end of the queue.
  */
-    public void delete(){
-        if(head == null){
-            return;
+    public int delete(){
+        if (head!=null){
+            Node temp = head;
+            head = head.next;
+            return temp.data;
         }
-        head = head.next;
+        else{
+            return 0;
+        }
     }
 
+
+    public boolean isEmpty(){
+        if(head==null){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 
     /*
      * This function will accept an index number and will update the value of that index.
@@ -73,22 +89,6 @@ class CreateQueue{
         System.out.println();
 
     }
-
-/*
- * This method is used for searching any element present in the queue.
- */
-    public void search(int data){
-        Node curr = head;
-        int counter = 0;
-        while(curr != null){
-            if (curr.data == data){
-                System.out.println("Element Found at: "+counter);
-                return;
-            }
-            curr = curr.next;
-        }
-        System.out.println("Element not present in the queue.");
-    }
 }
 
 public class Queue{
@@ -113,52 +113,45 @@ public class Queue{
         System.out.println("Enter 2 for updating a value.");
         System.out.println("Enter 3 for deleting a value.");
         System.out.println("Enter 4 for displaying a value.");
-        System.out.println("Enter 5 for searching.");
-        System.out.println("Enter 6 to exit.");
-        loop:while(true){
-            try{
-                
-                int option;
-                option = input.nextInt();
-                switch (option) {
-                    case 1:
-                            
-                        System.out.print("Enter an element. ");
-                        int value = input.nextInt();
-                        obj.add(value);
-                        System.out.println("Element added");
-                        break;
-                
-                    case 2:
-                        System.out.println("Enter a index value. ");
-                        int index = input.nextInt();
-                        System.out.println("Enter new value. ");
-                        int newValue = input.nextInt();
-                        obj.update(index, newValue);
-                        System.out.println("Element updated.");
-                        break;
+        System.out.println("Enter 5 to exit.");
+        System.out.println("Enter your choice. ");
+        int option;
 
 
-                    case 3:
-                        obj.delete();
-                        System.out.println("Your data deleted successfully.");
-                        break;
-                    case 4:
-                        obj.displayData();
-                        break;
-                    case 5:
-                    
-                    case 6:
-                        break loop;
-                    default:
-                        System.out.println("Enter a valid option.");
-                
-                }
-            }catch(InputMismatchException ex){
-                System.out.println("Invalid input");
-                input = new Scanner(System.in);
+        while(true){
+            option = input.nextInt();
+            if(option==1){
+                System.out.print("Enter an element. ");
+                int value = input.nextInt();
+                obj.add(value);
+                System.out.println("Element added");
             }
+            else if(option == 2){
+                System.out.println("Enter a index value. ");
+                int index = input.nextInt();
+                System.out.println("Enter new value. ");
+                int newValue = input.nextInt();
+                obj.update(index, newValue);
+                System.out.println("Element updated.");
+
+            }
+
+            else if(option == 3){
+                obj.delete();
+                System.out.println("Your data deleted successfully.");
+            }
+
+            else if(option == 4){
+                obj.displayData();
+            }
+
+            else if(option == 5){
+                break;
+            }
+            else{
+                System.out.println("Enter a valid option.");
+            }
+            System.out.println("Enter your choice.");
         }
-    
     }
 }

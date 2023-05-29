@@ -1,4 +1,5 @@
 // Importing Scanner class for taking input from user.
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -77,41 +78,44 @@ public class Stack {
         System.out.println("Enter 4 for displaying a value.");
         System.out.println("Enter 5 to exit.");
         int option;
-        while(true){
+        loop:while(true){
             System.out.println("Enter your choice.");
+            try{
             option = input.nextInt();
-            if(option==1){
-                System.out.print("Enter a value: ");
-                int value = input.nextInt();
-                obj.push(value);
-                System.out.println("Element added/pushed");
-            }
-            else if(option==2){
-                System.out.print("Enter old value: ");
-                int old = input.nextInt();
-                System.out.print("Enter new value: ");
-                int newData = input.nextInt();
-                obj.update(old, newData);
-                System.out.println("Element value updated.");
-            }
-            else if(option == 3){
-                obj.pop();
-                System.out.println("Element pop out successfully.");
-            }
-            else if(option == 4){
-                obj.showData();
-            }
+            switch(option){
 
-            else if(option== 5){
-                break;
+                case 1:
+                    System.out.print("Enter a value: ");
+                    int value = input.nextInt();
+                    obj.push(value);
+                    System.out.println("Element added/pushed");
+                    break;
+                case 2:
+                    System.out.print("Enter old value: ");
+                    int old = input.nextInt();
+                    System.out.print("Enter new value: ");
+                    int newData = input.nextInt();
+                    obj.update(old, newData);
+                    System.out.println("Element value updated.");
+                    break;
+                case 3:
+                    obj.pop();
+                    System.out.println("Element pop out successfully.");
+                
+                case 4:
+                    obj.showData();
+                case 5:
+                    break loop;
+                default:
+                    System.out.println("Please enter a number between 1 to 5");
             }
-            else{
-                System.out.println("Please enter a valid option.");
-            }
-
+            
+           
+        }catch(InputMismatchException ex){
+            System.out.println("Invalid input.");
+            input = new Scanner(System.in);
         }
 
-       
-        
+        }
     }
 }

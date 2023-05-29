@@ -2,11 +2,10 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class LinearProbing {
-    static class keyValuePair{
+    static class KeyValuePair{
         int key;
         int value;
-        keyValuePair next;
-        keyValuePair(int value, int key){
+        KeyValuePair(int value, int key){
             this.value = value;
             this.key = key;
         }
@@ -14,14 +13,14 @@ public class LinearProbing {
 
     static class hashing{
         int size;
-        keyValuePair[] container;
+        KeyValuePair[] container;
         // Created a variable for counting the number of collision.
         int collision = 0;
         hashing(int size){
             this.size = size;
-            this.container = new keyValuePair[size];
-            for(keyValuePair i:container) {
-                i = null;
+            this.container = new KeyValuePair[size];
+            for(KeyValuePair i:this.container) {
+                i=null;
             } 
         }
 
@@ -36,8 +35,8 @@ public class LinearProbing {
          */
         public void insert(int key, int value){
             int indexValue = hashFunction(key);
-            keyValuePair start = container[indexValue];
-            keyValuePair newNode = new keyValuePair(value,key);
+            KeyValuePair start = container[indexValue];
+            KeyValuePair newNode = new KeyValuePair(value,key);
             if(start == null){
                 container[indexValue] = newNode;
             }
@@ -47,6 +46,9 @@ public class LinearProbing {
             else{
                 int i = indexValue;
                 while(container[i] != null ){
+                    if(container[i].key == key){
+                        container[i].value = value;
+                    }
                     i = (i+1)%this.size;
                     if(i == hashFunction(key)){
                         System.out.println("your hash Map if full.");
@@ -66,10 +68,15 @@ public class LinearProbing {
             int indexValue = hashFunction(key);
             if(container[indexValue]!=null && container[indexValue].key == key){
                 container[indexValue] = null;
+                return;
             }
             else{
                 int i = indexValue;
-                while(container[indexValue].key != key ){
+                i = i+1;
+                while(true){
+                    if(container[i]!=null){
+                        if(container[i].key == key)break;
+                    }
                     i = (i+1)%size;
                     if(i == indexValue){
                         System.out.println("Unable to find the key provided.");
@@ -110,7 +117,7 @@ public class LinearProbing {
         //This function is used for displaying all data of hashMap.
         public void showData(){
             int count = 0;
-            for(keyValuePair start:container){
+            for(KeyValuePair start:container){
                 System.out.print(count+"-->");
                 if(start!=null){
                     System.out.print("{"+start.key+" : "+start.value +"} ");
